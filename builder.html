@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>NEXUS • Создать проект</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#050706;--card:#0e1210;--card2:#141a17;--line:#1d2622;--tx:#f2f5f3;--mut:#8a958f;--g:#3ddc84;--g2:#1f9d57;--warn:#f5b400;--err:#ff5d6c;--r:22px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.35 -apple-system,Roboto,"Segoe UI",sans-serif;min-height:100vh}
+body{background:radial-gradient(120% 40% at 50% 0,#0f2a1b 0,transparent 70%),var(--bg);padding:0 16px calc(110px + env(safe-area-inset-bottom))}
+h1{font-size:34px;margin:6px 0 4px;letter-spacing:-.5px}h2{font-size:30px;margin:2px 0 4px}
+.mut{color:var(--mut)}.sm{font-size:14px}
+.hero{padding:22px 0 8px}.eyebrow{color:var(--g);font-weight:700;letter-spacing:.14em;font-size:13px}
+.chip{display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:var(--r);background:linear-gradient(135deg,#2e9d57,#14502d);border:1px solid #2c7a4a;margin-top:10px}
+.chip .ic{width:52px;height:52px;border-radius:14px;background:#0f3a20;display:grid;place-items:center;font-size:22px;font-weight:800;flex:none}
+.chip b{font-size:18px;display:block}.chip span{font-family:ui-monospace,monospace;font-size:14px;opacity:.85}
+.chip .n{margin-left:auto;background:#0b1a11;border-radius:99px;padding:8px 14px;font-weight:700}
+.bars{display:flex;gap:8px;margin:16px 0 20px}.bars i{flex:1;height:5px;border-radius:9px;background:#212a26}.bars i.on{background:var(--g)}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 14px;border-radius:99px;font-weight:600;font-size:15px;white-space:nowrap;border:1px solid}
+.badge:before{content:"";width:11px;height:11px;border-radius:50%;background:currentColor}
+.badge.ok{color:var(--g);border-color:#1d5a37;background:#0b2217}.badge.need{color:var(--warn);border-color:#5a4410;background:#231b07}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:6px 18px;margin-bottom:14px}
+.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.ico{width:46px;height:46px;border-radius:14px;background:#0f2b1b;color:var(--g);display:grid;place-items:center;flex:none;font-size:20px}
+.fld{flex:1;min-width:0}.fld label{display:block;color:var(--mut);font-size:14px;margin-bottom:2px}
+input[type=text],input[type=password],input[type=number],input:not([type]){width:100%;background:transparent;border:0;outline:0;color:var(--tx);font:inherit;font-size:19px;padding:4px 0;font-family:ui-monospace,Menlo,monospace}
+.fld.bad label{color:var(--err)}
+.btn{border:0;border-radius:99px;background:#fff;color:#000;font-weight:700;font-size:17px;padding:13px 22px}
+.btn.sec{background:#1b2420;color:var(--tx);border:1px solid var(--line)}.btn.sm{padding:9px 16px;font-size:15px}.btn:disabled{opacity:.45}
+.hint{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:14px;font-size:17px}
+.note{padding:0 4px;color:var(--mut);font-size:15px;margin:6px 0 14px}
+.msg{padding:14px 16px;border-radius:16px;margin-bottom:14px;font-size:15px}.msg.ok{background:#0b2217;color:var(--g)}.msg.err{background:#2a0e12;color:#ff9aa4}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:5px;margin-bottom:14px}
+.seg button{flex:1;border:0;background:transparent;color:var(--mut);font:inherit;font-weight:600;padding:13px;border-radius:14px}.seg button.on{background:#222c27;color:var(--tx)}
+.pre{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.pre button{background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:18px;padding:14px 12px;text-align:left;font:inherit;min-height:92px}
+.pre button b{display:block;font-size:17px}.pre button span{color:var(--mut);font-size:14px}.pre button.on{border:2px solid var(--g);box-shadow:0 0 18px #3ddc8433}
+input[type=range]{-webkit-appearance:none;width:100%;height:10px;border-radius:9px;background:#2a332f;outline:0;margin:10px 0 2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--g);border:0;box-shadow:0 0 0 4px #0d2517}
+.val{font-size:24px;font-weight:700;margin-left:auto}
+.step{display:flex;align-items:center;background:var(--card2);border:1px solid var(--line);border-radius:18px}.step button{background:none;border:0;color:var(--tx);font-size:26px;width:46px;height:50px}.step b{min-width:34px;text-align:center;font-size:21px}
+.sw{width:62px;height:36px;border-radius:99px;background:#2a332f;position:relative;flex:none;transition:.2s}.sw:after{content:"";position:absolute;top:3px;left:3px;width:30px;height:30px;border-radius:50%;background:#fff;transition:.2s}.sw.on{background:var(--g)}.sw.on:after{left:29px}
+.pv{border-radius:var(--r);padding:20px;min-height:200px;background:linear-gradient(150deg,#31ad60,#14502d 60%,#0d2417);border:1px solid #2c7a4a;display:flex;flex-direction:column;justify-content:space-between;margin-bottom:14px}
+.pv .t{display:flex;justify-content:space-between;letter-spacing:.16em;font-size:13px;opacity:.9}.pv h3{font-size:34px;margin:0;text-transform:uppercase;letter-spacing:-.5px;word-break:break-word}
+.pv .pb{height:7px;border-radius:9px;background:#ffffff33;margin:10px 0 6px}.pv .pb i{display:block;height:100%;width:78%;background:#fff;border-radius:9px}.pv .f{display:flex;justify-content:space-between;opacity:.9;font-size:15px}
+.sum .row{cursor:pointer}.sum .t{font-size:19px;font-weight:600}.sum .s{color:var(--mut);font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:62vw}
+.pen{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#1b2420;display:grid;place-items:center;margin-left:auto;flex:none}
+.bottom{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 35%)}
+.bottom .btn{width:100%;border-radius:20px;font-size:19px;padding:20px}
+.ring{width:210px;height:210px;margin:26px auto;position:relative}.ring svg{transform:rotate(-90deg)}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:48px}
+.stp{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}.stp:last-child{border:0}
+.dot{width:34px;height:34px;border-radius:50%;border:3px solid #2a332f;display:grid;place-items:center;flex:none;font-weight:800;color:#000}.dot.done{background:var(--g);border-color:var(--g)}.dot.run{border-color:var(--g);animation:p 1s infinite}.stp.wait{opacity:.5}.stp code{margin-left:auto;color:var(--mut);font-size:13px}
+@keyframes p{50%{box-shadow:0 0 0 6px #3ddc8433}}.hide{display:none!important}
+.spin{display:inline-block;width:20px;height:20px;border:3px solid #0003;border-top-color:#000;border-radius:50%;animation:s .7s linear infinite;vertical-align:-4px}@keyframes s{to{transform:rotate(360deg)}}
+</style></head><body>
+<div id="app"></div>
+<div class="bottom"><button class="btn" id="main"></button></div>
+<script>
+const tg=window.Telegram&&Telegram.WebApp;if(tg){tg.ready();tg.expand();try{tg.setHeaderColor("#000000");tg.setBackgroundColor("#050706")}catch(e){}}
+const $=s=>document.querySelector(s),app=$("#app"),main=$("#main");
+const DRAFT="nexus_build_draft_v1";
+const D={ip:"",port:"7777",name:"",maxplayers:50,preset:"std",donate:10000,money:80000000,vip:1,vipOn:true,lvl:1,
+ lnk:{tg:false,vk:false,site:false},tg:"",vk:"",site:"",proto:"ftp",host:"",fport:"21",user:"",pw:"",dir:"/",
+ db_host:"",db_port:"3306",db_user:"",db_pass:"",db_host_game:"127.0.0.1"};
+try{Object.assign(D,JSON.parse(localStorage.getItem(DRAFT)||"{}"),{pw:"",db_pass:""})}catch(e){}
+const OK={server:false,ftp:false,db:false};let step=0,info={},busy=false,flash=null,showPw=false,poll=null;
+const save=()=>{try{const c={...D};delete c.pw;delete c.db_pass;localStorage.setItem(DRAFT,JSON.stringify(c))}catch(e){}};
+async function api(p,b={}){const r=await fetch("/build/api/"+p,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...b,initData:tg?tg.initData:""})});if(r.status==401)throw new Error("Открой конструктор из бота");return r.json()}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hap=t=>{try{tg.HapticFeedback.notificationOccurred(t)}catch(e){}};
+const NAMES=["Сервер","Оформление","Старт игрока","Ссылки","Хостинг","Проверка"],SUB=["Куда будут подключаться игроки","Как проект увидят игроки","Что новичок получит при первом входе","Покажем игрокам в меню и сообщениях","Бот сам зальёт мод и базу","После сборки поменять можно только новой сборкой"];
+const fmt=n=>Number(n).toLocaleString("ru");const money=n=>n>=1e6?(n/1e6)+" млн":fmt(n);
+const PRESETS={std:{t:"Стандарт",s:"для большинства",donate:10000,money:80000000,vip:1,lvl:1},gen:{t:"Щедрый",s:"быстрый старт",donate:50000,money:300000000,vip:3,lvl:5},hard:{t:"Хардкор",s:"всё с нуля",donate:0,money:0,vip:0,lvl:1}};
+const ipOk=v=>/^\d{1,3}(\.\d{1,3}){3}$/.test(v)&&v.split(".").every(x=>+x<=255);
+const portOk=v=>/^\d+$/.test(v)&&+v>=1&&+v<=65535;
+const nameOk=v=>v.trim().length>=2&&v.trim().length<=24&&!/[<>"\\]/.test(v);
+const hostOk=v=>/^[A-Za-z0-9.\-]{1,100}$/.test(v);
+const valid=[()=>ipOk(D.ip)&&portOk(D.port),()=>nameOk(D.name),()=>true,()=>["tg","vk","site"].every(k=>!D.lnk[k]||D[k].trim().length>2),
+ ()=>hostOk(D.host)&&D.user&&D.pw&&hostOk(D.db_host)&&D.db_user&&D.db_pass&&hostOk(D.db_host_game),()=>true];
+const head=()=>`<div class="chip"><div class="ic">${esc((D.name||"n")[0].toUpperCase())}</div><div><b>${esc((D.name||"NEXUSTOP").toUpperCase())}</b><span>${esc(D.ip||"0.0.0.0")}:${esc(D.port)}</span></div><div class="n">${step+1}/6</div></div>
+<div class="bars">${[0,1,2,3,4,5].map(i=>`<i class="${i<=step?"on":""}"></i>`).join("")}</div>
+<div class="head"><div><div class="mut sm">Шаг ${step+1} из 6</div><h2>${NAMES[step]}</h2><div class="mut">${SUB[step]}</div></div><span class="badge ${step==5||valid[step]()?"ok":"need"}">${step==5||valid[step]()?"Готово":"Нужно"}</span></div>`;
+const fld=(ic,label,key,o={})=>`<div class="row"><div class="ico">${ic}</div><div class="fld"><label>${label}</label><input ${o.type?`type="${o.type}"`:""} ${o.mode?`inputmode="${o.mode}"`:""} value="${esc(D[key])}" data-k="${key}" ${o.ph?`placeholder="${o.ph}"`:""} autocomplete="off" autocapitalize="off" spellcheck="false"></div>${o.btn||""}</div>`;
+const msg=k=>flash&&flash.k==k?`<div class="msg ${flash.ok?"ok":"err"}">${esc(flash.t)}</div>`:"";
+
+function view(){
+ if(step==6)return;
+ let h=head();
+ if(step==0)h+=`<div class="box">${fld("🖥","Адрес сервера","ip",{mode:"decimal",ph:"185.207.214.14"})}${fld("🔌","Порт","port",{mode:"numeric"})}</div>
+ <button class="btn sec" id="chk" data-c="server">${OK.server?"✓ Адрес принят":"Проверить адрес"}</button>${msg("server")}
+ <div class="hint" style="margin-top:14px"><div class="ico">?</div><div>IP и порт игры — в панели хостинга, раздел «Сервер». Пример: <b>1.2.3.4</b> и <b>7777</b></div></div>`;
+ if(step==1)h+=`<div class="pv"><div class="t"><span>ЗАГРУЗКА</span><span>CRMP MOBILE</span></div><h3 id="pvn">${esc((D.name||"NEXUSTOP").toUpperCase())}</h3><div><div class="pb"><i></i></div><div class="f"><span>Подключение</span><span>${esc(D.ip)}:${esc(D.port)}</span></div></div></div>
+ <div class="box">${fld("🏷","Название проекта","name",{ph:"nexustop"})}${fld("👥","Слотов (maxplayers)","maxplayers",{mode:"numeric"})}</div>
+ <div class="note">Название попадёт в список серверов, чат, диалоги игры и в само приложение. 2–24 символа.</div>`;
+ if(step==2){h+=`<div class="pre">${Object.entries(PRESETS).map(([k,p])=>`<button data-p="${k}" class="${D.preset==k?"on":""}"><b>${p.t}</b><span>${p.s}</span></button>`).join("")}</div>
+ <div class="box"><div class="row"><div class="ico">$</div><div class="fld"><label>Донат</label><input type="range" min="0" max="100000" step="1000" value="${D.donate}" data-r="donate"></div><div class="val" id="v-donate">${fmt(D.donate)}</div></div>
+ <div class="row"><div class="ico">$</div><div class="fld"><label>Игровые деньги</label><input type="range" min="0" max="1000000000" step="5000000" value="${D.money}" data-r="money"></div><div class="val" id="v-money">${money(D.money)}</div></div>
+ <div class="row"><div class="ico">★</div><div class="fld"><label>VIP-статус</label><span class="mut">${D.vipOn?"Уровень VIP "+D.vip:"Выключен"}</span></div>
+  <div class="step ${D.vipOn?"":"hide"}"><button data-s="vip-">−</button><b>${D.vip}</b><button data-s="vip+">+</button></div><div class="sw ${D.vipOn?"on":""}" data-t="vip"></div></div>
+ <div class="row"><div class="ico">▥</div><div class="fld"><label>Уровень персонажа</label><span class="mut">С какого уровня начинают</span></div><div class="step"><button data-s="lvl-">−</button><b>${D.lvl}</b><button data-s="lvl+">+</button></div></div></div>
+ <div class="note">Слишком щедрый старт убивает экономику: игрокам быстро становится скучно. Для нового сервера лучше «Стандарт».</div>`}
+ if(step==3){const L=[["tg","✈","Telegram","t.me/твой_канал"],["vk","в","ВКонтакте","vk.com/твоя_группа"],["site","🌐","Сайт","https://твой-сайт.ru"]];
+ h+=`<div class="box">${L.map(([k,ic,t,ph])=>`<div class="row"><div class="ico">${ic}</div><div class="fld"><label>${t}</label>${D.lnk[k]?`<input value="${esc(D[k])}" data-k="${k}" placeholder="${ph}" autocomplete="off" autocapitalize="off">`:`<span style="font-size:19px">Не показывать</span>`}</div><div class="sw ${D.lnk[k]?"on":""}" data-t="lnk:${k}"></div></div>`).join("")}</div>
+ <div class="note">Сайт показывается в сообщениях про донат. Если сайта нет, включи хотя бы Telegram — игроки будут знать, куда писать.</div>`}
+ if(step==4)h+=`<div class="seg"><button class="${D.proto=="ftp"?"on":""}" data-pr="ftp">FTP</button><button class="${D.proto=="sftp"?"on":""}" data-pr="sftp">SFTP</button></div>
+ <div class="mut" style="margin:0 4px 8px">${D.proto.toUpperCase()} · раздел «FTP» в панели хостинга</div>
+ <div class="box">${fld("⇪","Адрес хостинга","host",{ph:"185.207.214.37"})}${fld("🔌","Порт","fport",{mode:"numeric"})}${fld("👤","Логин","user")}${fld("🔑","Пароль","pw",{type:showPw?"text":"password",btn:`<div class="pen" data-eye>${showPw?"🙈":"👁"}</div>`})}${fld("📁","Папка сервера","dir")}</div>
+ <button class="btn sec" id="chk" data-c="ftp">${OK.ftp?"✓ Хостинг подключён":"Проверить FTP"}</button>${msg("ftp")}
+ <div class="mut" style="margin:18px 4px 8px">MySQL · раздел «Базы данных»</div>
+ <div class="box">${fld("🗄","Адрес MySQL (внешний хост)","db_host",{ph:"тот же, что у хостинга"})}${fld("🔌","Порт MySQL","db_port",{mode:"numeric"})}${fld("👤","Логин","db_user")}${fld("🔑","Пароль","db_pass",{type:showPw?"text":"password"})}${fld("🎮","Хост для мода","db_host_game")}</div>
+ <button class="btn sec" id="chk" data-c="db">${OK.db?"✓ База доступна":"Проверить базу"}</button>${msg("db")}
+ <div class="note">Пароли не сохраняются: бот использует их только для заливки и сразу удаляет. Старые таблицы в базе будут удалены — бери отдельную пустую базу.</div>`;
+ if(step==5){const S=(i,ic,t,s)=>`<div class="row" data-go="${i}"><div class="ico">${ic}</div><div class="fld"><div class="t">${t}</div><div class="s">${esc(s)}</div></div><div class="pen">✎</div></div>`;
+ h+=`<div class="pv"><div class="t"><span>ТВОЙ ПРОЕКТ</span><span>${info.price?info.price+" ⭐":"БЕСПЛАТНО"}</span></div><h3>${esc((D.name||"").toUpperCase())}</h3><div class="f"><span>${D.maxplayers} слотов</span><span>${esc(D.ip)}:${esc(D.port)}</span></div></div>
+ <div class="box sum">${S(0,"🖥","Сервер",D.ip+":"+D.port)}${S(1,"🏷","Название",D.name)}${S(2,"🎁","Старт игрока",`${PRESETS[D.preset]?.t||"Свой"} · ${fmt(D.donate)} доната, ${money(D.money)}, ${D.vipOn?"VIP "+D.vip:"без VIP"}, LVL ${D.lvl}`)}
+ ${S(3,"🌐","Ссылки",["tg","vk","site"].filter(k=>D.lnk[k]).map(k=>D[k]).join(", ")||"Без ссылок")}${S(4,"⇪","Хостинг",`${D.proto.toUpperCase()} ${D.host} · MySQL ${D.db_host}`)}</div>
+ ${info.limit?`<div class="msg err">Лимит бесплатных проектов на сегодня исчерпан.</div>`:""}${info.ready===false?`<div class="msg err">На сервере бота не готова сборка лаунчера — напиши в поддержку @${esc(info.support||"")}.</div>`:""}
+ <div id="err">${flash&&flash.k=="submit"?`<div class="msg err">${esc(flash.t)}</div>`:""}</div>`}
+ app.innerHTML=h;
+ const last=step==5;main.disabled=busy||(last&&(info.limit||info.ready===false))||(!last&&!valid[step]());
+ main.innerHTML=busy?'<span class="spin"></span>':last?"Собрать проект":"Дальше";
+ window.scrollTo(0,0);
+}
+function kbdRefresh(){const l=step==5?0:0;main.disabled=busy||(!(step==5)&&!valid[step]());const b=document.querySelector(".badge");if(b&&step<5){const ok=valid[step]();b.className="badge "+(ok?"ok":"need");b.textContent=ok?"Готово":"Нужно"}}
+app.addEventListener("input",e=>{const t=e.target;
+ if(t.dataset.k){let v=t.value;if(["port","fport","db_port","maxplayers"].includes(t.dataset.k)){v=v.replace(/\D/g,"");t.value=v}
+  D[t.dataset.k]=v;
+  if(["ip","port"].includes(t.dataset.k))OK.server=false;if(["host","fport","user","pw"].includes(t.dataset.k))OK.ftp=false;if(t.dataset.k.startsWith("db_"))OK.db=false;
+  if(t.dataset.k=="name"){const p=$("#pvn");if(p)p.textContent=(v||"NEXUSTOP").toUpperCase()}
+  save();kbdRefresh()}
+ if(t.dataset.r){D[t.dataset.r]=+t.value;D.preset="custom";$("#v-"+t.dataset.r).textContent=t.dataset.r=="money"?money(D.money):fmt(D.donate);save()}});
+app.addEventListener("click",async e=>{const t=e.target.closest("[data-p],[data-s],[data-t],[data-pr],[data-eye],[data-go],[data-c]");if(!t)return;
+ const d=t.dataset;
+ if(d.p){Object.assign(D,{preset:d.p},PRESETS[d.p]);D.vipOn=D.vip>0;if(!D.vip)D.vip=1;if(d.p=="hard")D.vipOn=false;save();view()}
+ else if(d.s){const[k,o]=[d.s.slice(0,-1),d.s.slice(-1)];const lim=k=="vip"?[1,10]:[1,100];D[k]=Math.max(lim[0],Math.min(lim[1],D[k]+(o=="+"?1:-1)));D.preset="custom";save();view()}
+ else if(d.t){if(d.t=="vip"){D.vipOn=!D.vipOn;D.preset="custom"}else{const k=d.t.split(":")[1];D.lnk[k]=!D.lnk[k]}save();view()}
+ else if(d.pr){D.proto=d.pr;D.fport=d.pr=="sftp"?"22":"21";OK.ftp=false;save();view()}
+ else if(d.eye!==undefined){showPw=!showPw;view()}
+ else if(d.go){step=+d.go;flash=null;view()}
+ else if(d.c)check(d.c)});
+async function check(k){
+ const b={kind:k,ip:D.ip,port:D.port,proto:D.proto,host:D.host,user:D.user,pw:D.pw,db_host:D.db_host,db_port:D.db_port,db_user:D.db_user,db_pass:D.db_pass};
+ if(k=="ftp")b.port=D.fport;
+ const btn=$("#chk");if(btn){btn.disabled=true;btn.innerHTML='<span class="spin" style="border-top-color:#fff"></span>'}
+ try{const r=await api("check",b);OK[k]=!!r.ok;flash={k,ok:r.ok,t:r.msg};hap(r.ok?"success":"error")}catch(e){flash={k,ok:false,t:e.message}}
+ const y=window.scrollY;view();window.scrollTo(0,y);return OK[k]}
+main.onclick=async()=>{
+ if(busy)return;
+ if(step<5){
+  if(step==4){busy=true;flash=null;view();for(const k of ["ftp","db"])if(!OK[k]&&!await check(k)){busy=false;view();return}busy=false}
+  step++;flash=null;if(step==4&&!D.db_host)D.db_host=D.host;view();return}
+ busy=true;flash=null;view();
+ try{const r=await api("submit",{name:D.name.trim(),server_ip:D.ip,server_port:D.port,maxplayers:D.maxplayers,donate:D.donate,money:D.money,vip:D.vipOn?D.vip:0,lvl:D.lvl,
+  tg:D.lnk.tg?D.tg:"",vk:D.lnk.vk?D.vk:"",site:D.lnk.site?D.site:"",proto:D.proto,host:D.host,port:D.fport,user:D.user,pw:D.pw,dir:D.dir,
+  db_host:D.db_host,db_port:D.db_port,db_user:D.db_user,db_pass:D.db_pass,db_host_game:D.db_host_game});
+  busy=false;if(!r.ok){flash={k:"submit",ok:false,t:r.msg};hap("error");view();return}
+  D.pw=D.db_pass="";hap("success");building(r)}catch(e){busy=false;flash={k:"submit",ok:false,t:e.message};view()}};
+function building(r){step=6;main.disabled=false;main.textContent="Вернуться в чат";main.onclick=()=>tg?tg.close():0;
+ if(r.pay){app.innerHTML=`<div class="hero"><div class="eyebrow">ОПЛАТА</div><h1>Заказ #${r.oid}</h1><div class="mut">Счёт отправлен в чат с ботом. Оплати его — сборка стартует сама, а прогресс будет виден здесь.</div></div><div id="st"></div>`}
+ else app.innerHTML=`<div class="hero"><div class="eyebrow">СБОРКА</div><h1>${esc(D.name.toUpperCase())}</h1><div class="mut" id="sub">Собираю проект · окно можно закрыть</div></div><div class="ring"><svg width="210" height="210"><circle cx="105" cy="105" r="92" stroke="#1b2420" stroke-width="16" fill="none"/><circle id="arc" cx="105" cy="105" r="92" stroke="#3ddc84" stroke-width="16" fill="none" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="578" style="transition:.6s"/></svg><b id="pct">0%</b></div><div class="box" id="st"></div><div class="note">Итог и файл лаунчера бот пришлёт в чат, даже если закрыть это окно.</div>`;
+ const tick=async()=>{try{const s=await api("status",{oid:r.oid});if(!s.ok)return;
+  const arc=$("#arc");if(arc){arc.style.strokeDashoffset=578*(1-s.pct/100);$("#pct").textContent=s.pct+"%"}
+  const sub=$("#sub");if(sub)sub.textContent=s.status=="done"?"Готово! Лаунчер уже в чате 🎉":s.status=="failed"?"Ошибка сборки — админ уже уведомлён":(s.wait||"Собираю проект · окно можно закрыть");
+  $("#st").innerHTML=s.steps.map(x=>`<div class="stp ${x.state}"><div class="dot ${x.state}">${x.state=="done"?"✓":""}</div><div>${esc(x.title)}</div><code>${esc(x.hint)}</code></div>`).join("");
+  if(["done","failed","rejected","cancelled","refunded"].includes(s.status)){clearInterval(poll);if(s.status=="done")hap("success")}}catch(e){}};
+ tick();poll=setInterval(tick,2500)}
+(async()=>{view();try{info=await api("init");if(!info.ok)throw 0}catch(e){app.innerHTML='<div class="hero"><h1>Открой из бота</h1><div class="mut">Конструктор работает только внутри Telegram: нажми «Создать проект» в боте.</div></div>';main.style.display="none"}})();
+</script></body></html>
